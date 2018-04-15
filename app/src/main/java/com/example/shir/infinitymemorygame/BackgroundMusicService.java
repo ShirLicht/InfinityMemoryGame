@@ -19,7 +19,7 @@ public class BackgroundMusicService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.under_the_sea );
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.under_the_sea_the_little_mermaid );
     }
 
     @Override
@@ -34,4 +34,6 @@ public class BackgroundMusicService extends Service{
         mediaPlayer.stop();
         mediaPlayer.release();
     }
+
+
 }

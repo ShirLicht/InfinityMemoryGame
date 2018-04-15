@@ -19,7 +19,7 @@ public class MemoryButton extends Button{
     protected int row;
     protected int column;
     protected int frontDrawableId;
-    private int gridSize, buttonSize;
+    private int gridSize;
 
     protected boolean isFlipped = false;
     protected boolean isMatched = false;
@@ -37,14 +37,15 @@ public class MemoryButton extends Button{
         frontDrawableId = frontImageDrawableId;
         gridSize = gridSize;
 
-        initButtonSize();
 
+        // define the button's backgrounds - front & back
         front = AppCompatDrawableManager.get().getDrawable(context, frontImageDrawableId);
         back = AppCompatDrawableManager.get().getDrawable(context, R.drawable.disney);
 
         setBackground(back);
        GridLayout.LayoutParams tempParams = new GridLayout.LayoutParams(GridLayout.spec(row),GridLayout.spec(column));
 
+       //define the button size (according to the size of the buttons matrix
         if(gridSize == 2) {
             tempParams.width = (int) getResources().getDisplayMetrics().density * 200;
             tempParams.height = (int) getResources().getDisplayMetrics().density * 200;
@@ -97,13 +98,5 @@ public class MemoryButton extends Button{
     }
 
 
-    private void initButtonSize()
-    {
-        if(gridSize == 2)
-            buttonSize = 170;
-        else if (gridSize == 4)
-            buttonSize = 75;
-        else if(gridSize == 6)
-            buttonSize = 60;
-    }
+
 }

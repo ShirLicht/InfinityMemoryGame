@@ -106,5 +106,15 @@ public class SecondActivity extends AppCompatActivity {
 
     }
 
+    private void loadMainActivity() {
+        Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
 
+        startActivity(startIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        loadMainActivity();
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.shir.infinitymemorygame;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -18,11 +19,12 @@ public class GameLevelActivity extends AppCompatActivity implements View.OnClick
     //----------definition of variables----------
 
     //----music----
-   // private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
 
     //----i/o----
     private String[] inputStrings, outputStrings;
     private int gridLayoutSize;
+
 
     //----game buttons----
     private Button backButton, pauseMusicButton, resumeMusicButton;
@@ -259,10 +261,18 @@ public class GameLevelActivity extends AppCompatActivity implements View.OnClick
 
     private void loadMenuActivity() {
         Intent startIntent = new Intent(getApplicationContext(), SecondActivity.class);
-        backgroundMusic(false);
+      //  backgroundMusic(false);
+        mediaPlayer.stop();
         //pass information to the Second Activity - name & age
         startIntent.putExtra("com.example.shir.infinitymemorygame.SOMETHING", outputStrings);
         startActivity(startIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mediaPlayer.stop();
+        mCountDownTimer.cancel();
     }
 
     private void backgroundMusic(boolean play) {
@@ -272,12 +282,15 @@ public class GameLevelActivity extends AppCompatActivity implements View.OnClick
             startService(newIntent);
         else
             stopService(newIntent);
+
     }
 
     private void initVariables() {
 
         //play background music
-        backgroundMusic(true);
+       // backgroundMusic(true);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.under_the_sea_the_little_mermaid);
+        mediaPlayer.start();
 
         //------initial xml variables------
         gridLayout = (GridLayout) findViewById(R.id.grid_layout);
@@ -324,7 +337,8 @@ public class GameLevelActivity extends AppCompatActivity implements View.OnClick
         pauseMusicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backgroundMusic(false);
+                //backgroundMusic(false);
+                mediaPlayer.pause();
                 pauseMusicButton.setVisibility(View.INVISIBLE);
                 resumeMusicButton.setVisibility(View.VISIBLE);
             }
@@ -333,7 +347,8 @@ public class GameLevelActivity extends AppCompatActivity implements View.OnClick
         resumeMusicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backgroundMusic(true);
+                //backgroundMusic(true);
+                mediaPlayer.start();
                 pauseMusicButton.setVisibility(View.VISIBLE);
                 resumeMusicButton.setVisibility(View.INVISIBLE);
             }
@@ -346,6 +361,7 @@ public class GameLevelActivity extends AppCompatActivity implements View.OnClick
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCountDownTimer.cancel();
                 loadMenuActivity();
             }
         });
@@ -365,6 +381,7 @@ public class GameLevelActivity extends AppCompatActivity implements View.OnClick
         if(i == numberOfElements)
         {
             winnerImageView.setVisibility(View.VISIBLE);
+            mCountDownTimer.cancel();
             loadMenuActivity();
         }
     }
